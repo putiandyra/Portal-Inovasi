@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profil Mitra & Inovator — Demo Login</title>
+  <style>
+    :root{
+      --accent:#2a9d8f;
+      --bg:#f7f7f8;
+      --card:#ffffff;
+      --muted:#6b6b6b;
+      --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, "Segoe UI", Roboto, Arial;
+      background:var(--bg);
+      color:#222;
+      line-height:1.4;
+    }
+
+    header{
+      background:linear-gradient(90deg,var(--accent),#1f7f6f);
+      color:#fff;
+      padding:18px 12px;
+      text-align:center;
+    }
+    header .topbar{
+      max-width:var(--maxw);
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    header h1{font-size:20px;margin:0}
+    header .auth-controls button{
+      background:transparent;
+      color:#fff;
+      border:1px solid rgba(255,255,255,0.25);
+      padding:8px 12px;
+      border-radius:8px;
+      cursor:pointer;
+    }
+    main{max-width:var(--maxw);margin:20px auto;padding:0 12px;}
+
+    /* tabs */
+    .tab {
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      margin-bottom:16px;
+      flex-wrap:wrap;
+    }
+    .tab button{
+      background:transparent;
+      border:1px solid #ddd;
+      padding:10px 16px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .tab button.active{
+      background:var(--accent);
+      color:#fff;
+      border-color:var(--accent);
+      box-shadow: 0 6px 18px rgba(42,157,143,0.12);
+    }
+
+    /* content */
+    .tabcontent{display:none;}
+    .tabcontent.active{display:block;}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:16px;
+    }
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      padding:16px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+      text-align:center;
+    }
+    .avatar{
+      width:86px;height:86px;border-radius:50%;object-fit:cover;margin:0 auto 10px;
+      background:linear-gradient(180deg,#eee,#ddd);
+      display:block;
+    }
+    .card h3{margin:6px 0 4px;font-size:1.05rem}
+    .card p{color:var(--muted);font-size:0.95rem;margin:0}
+
+    /* protected details */
+    .protected{
+      margin-top:12px;
+      background:#fbfbfd;
+      border:1px dashed #d6d6e0;
+      padding:12px;
+      border-radius:8px;
+      color:#333;
+      text-align:left;
+    }
+    .protected dt{font-weight:700}
+    .protected dd{margin:0 0 8px 0;color:var(--muted)}
+
+    .cta{
+      display:flex;
+      gap:8px;
+      justify-content:center;
+      margin-top:12px;
+    }
+    .btn{
+      padding:8px 14px;border-radius:8px;border:0;cursor:pointer;font-weight:600;
+    }
+    .btn--primary{background:var(--accent);color:#fff}
+    .btn--ghost{background:transparent;border:1px solid #ccc}
+
+    /* modal */
+    .modal-backdrop{
+      position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;
+      z-index:50;padding:16px;
+    }
+    .modal{
+      width:100%;max-width:420px;background:var(--card);border-radius:12px;padding:18px;box-shadow:0 10px 40px rgba(2,12,34,0.15);
+    }
+    .modal h2{margin:0 0 8px}
+    .modal label{display:block;font-size:0.9rem;margin:10px 0 4px}
+    .modal input{
+      width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:0.95rem;
+    }
+    .modal .row{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
+    .note{font-size:0.85rem;color:var(--muted);text-align:center;margin-top:8px}
+
+    /* small screens */
+    @media (max-width:520px){
+      header .topbar{flex-direction:column;gap:8px}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="topbar">
+      <h1>Portal Mitra & Inovator</h1>
+      <div class="auth-controls">
+        <span id="welcomeText" style="margin-right:10px;display:none;color:rgba(255,255,255,0.95)"></span>
+        <button id="btnLoginTop">Masuk</button>
+        <button id="btnLogoutTop" style="display:none">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="tab" role="tablist" aria-label="Profil Tabs">
+      <button class="tablink active" data-target="mitraTab">Profil Mitra</button>
+      <button class="tablink" data-target="inovatorTab">Profil Inovator</button>
+    </div>
+
+    <!-- MITRA TAB -->
+    <section id="mitraTab" class="tabcontent active" aria-hidden="false">
+      <div class="grid">
+        <!-- Card 1 -->
+        <article class="card">
+          <img class="avatar" src="https://via.placeholder.com/180?text=Logo" alt="Logo PT Agro Sejahtera">
+          <h3>PT. Agro Sejahtera</h3>
+          <p>Perusahaan agribisnis fokus pada distribusi pangan lokal berkelanjutan.</p>
+
+          <!-- Ringkasan publik -->
+          <div class="cta">
+            <button class="btn btn--ghost" onclick="showProtected(this,'agro')">Lihat Info Lengkap</button>
+          </div>
+
+          <!-- Konten tersembunyi -->
+          <div class="protected" data-protected-for="agro" style="display:none">
+            <dl>
+              <dt>Alamat Kantor</dt>
+              <dd>Jl. Kebun Raya No.8, Bandung, Jawa Barat</dd>
+
+              <dt>Jenis Kerjasama</dt>
+              <dd>Penyediaan logistik & pemasaran hasil panen.</dd>
+
+              <dt>Area Operasi</dt>
+              <dd>Jawa Barat, Jawa Tengah, dan Jawa Timur</dd>
+            </dl>
+            <p class="note">Info lengkap hanya dapat dilihat setelah login.</p>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="card">
+          <img class="avatar" src="https://via.placeholder.com/180?text=Logo" alt="Logo CV Digital Nusantara">
+          <h3>CV. Digital Nusantara</h3>
+          <p>Startup solusi digital untuk UMKM (marketplace & edukasi digital).</p>
+
+          <div class="cta">
+            <button class="btn btn--ghost" onclick="showProtected(this,'digital')">Lihat Info Lengkap</button>
+          </div>
+
+          <div class="protected" data-protected-for="digital" style="display:none">
+            <dl>
+              <dt>Model Bisnis</dt>
+              <dd>Platform SaaS + marketplace untuk UMKM.</dd>
+
+              <dt>Fitur Unggulan</dt>
+              <dd>Manajemen inventori, pembayaran digital (gateway), dashboard analytics.</dd>
+
+              <dt>Skala Mitra</dt>
+              <dd>Lebih dari 1.500 UMKM terdaftar (internal).</dd>
+            </dl>
+            <p class="note">Info lengkap hanya dapat dilihat setelah login.</p>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="card">
+          <img class="avatar" src="https://via.placeholder.com/180?text=Logo" alt="Logo Yayasan Hijau">
+          <h3>Yayasan Hijau Indonesia</h3>
+          <p>Lembaga nirlaba untuk edukasi pertanian lestari & advokasi lingkungan.</p>
+
+          <div class="cta">
+            <button class="btn btn--ghost" onclick="showProtected(this,'hijau')">Lihat Info Lengkap</button>
+          </div>
+
+          <div class="protected" data-protected-for="hijau" style="display:none">
+            <dl>
+              <dt>Program Utama</dt>
+              <dd>Pendampingan petani muda & pelatihan pertanian organik.</dd>
+
+              <dt>Skema Pendanaan</dt>
+              <dd>Hibah, CSR, & donor lokal untuk program komunitas.</dd>
+            </dl>
+            <p class="note">Info lengkap hanya dapat dilihat setelah login.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- INOVATOR TAB -->
+    <section id="inovatorTab" class="tabcontent" aria-hidden="true">
+      <div class="grid">
+        <article class="card">
+          <img class="avatar" src="https://via.placeholder.com/180?text=Foto" alt="Foto Andi Pratama">
+          <h3>Andi Pratama</h3>
+          <p>Inovator aplikasi manajemen panen untuk petani skala kecil.</p>
+
+          <div class="cta">
+            <button class="btn btn--ghost" onclick="showProtected(this,'andi')">Lihat Info Lengkap</button>
+          </div>
+
+          <div class="protected" data-protected-for="andi" style="display:none">
+            <dl>
+              <dt>Keahlian</dt><dd>Full-stack developer & agritech product lead.</dd>
+              <dt>Proyek</dt><dd>Aplikasi 'PanenKu' (prototype), fitur traceability dan marketplace lokal.</dd>
+              <dt>Penghargaan</dt><dd>Juara 2 Hackathon Agritech 2023 (kategori sustainability).</dd>
+            </dl>
+            <p class="note">Info lengkap hanya dapat dilihat setelah login.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <img class="avatar" src="https://via.placeholder.com/180?text=Foto" alt="Foto Sari Dewi">
+          <h3>Sari Dewi</h3>
+          <p>Pengembang platform edukasi digital untuk petani muda.</p>
+
+          <div class="cta">
+            <button class="btn btn--ghost" onclick="showProtected(this,'sari')">Lihat Info Lengkap</button>
+          </div>
+
+          <div class="protected" data-protected-for="sari" style="display:none">
+            <dl>
+              <dt>Program</dt><dd>Modul e-learning + workshop lapangan.</dd>
+              <dt>Target</dt><dd>Petani pemula & komunitas pertanian perkotaan.</dd>
+            </dl>
+            <p class="note">Info lengkap hanya dapat dilihat setelah login.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal Login -->
+  <div id="modal" class="modal-backdrop" role="dialog" aria-modal="true" style="display:none">
+    <div class="modal" role="document">
+      <h2>Masuk untuk melihat info lengkap</h2>
+      <p style="margin:6px 0 12px;color:var(--muted)">Isi username & password. (Demo: masukkan apa saja — hanya contoh client-side).</p>
+      <label for="username">Username</label>
+      <input id="username" type="text" autocomplete="username" placeholder="mis. dyraaa">
+
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" placeholder="masukkan password">
+
+      <div class="row">
+        <button class="btn btn--ghost" id="btnCancel">Batal</button>
+        <button class="btn btn--primary" id="btnSubmit">Masuk</button>
+      </div>
+
+      <p class="note">Catatan: sistem ini hanya untuk demo. Untuk proteksi nyata diperlukan server + database.</p>
+    </div>
+  </div>
+
+  <script>
+    // --- Tab switching ---
+    document.querySelectorAll('.tablink').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('.tablink').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.tabcontent').forEach(t=>{
+          t.classList.remove('active');
+          t.setAttribute('aria-hidden','true');
+        });
+        btn.classList.add('active');
+        const target = document.getElementById(btn.dataset.target);
+        target.classList.add('active');
+        target.setAttribute('aria-hidden','false');
+      });
+    });
+
+    // --- Modal & auth ---
+    const modal = document.getElementById('modal');
+    const btnLoginTop = document.getElementById('btnLoginTop');
+    const btnLogoutTop = document.getElementById('btnLogoutTop');
+    const welcomeText = document.getElementById('welcomeText');
+    const btnCancel = document.getElementById('btnCancel');
+    const btnSubmit = document.getElementById('btnSubmit');
+
+    // open modal
+    btnLoginTop.addEventListener('click', ()=>{
+      modal.style.display = 'flex';
+      document.getElementById('username').focus();
+    });
+    btnCancel.addEventListener('click', ()=> { modal.style.display = 'none'; });
+
+    // simple login: accept any non-empty credentials (demo)
+    btnSubmit.addEventListener('click', ()=>{
+      const u = document.getElementById('username').value.trim();
+      const p = document.getElementById('password').value.trim();
+      if(!u || !p){
+        alert('Isi username dan password (boleh apa saja untuk demo).');
+        return;
+      }
+      // set login state in localStorage
+      localStorage.setItem('tp_loggedIn', '1');
+      localStorage.setItem('tp_user', u);
+      modal.style.display = 'none';
+      updateAuthUI();
+      revealAllProtected(); // reveal any previously attempted protected content
+    });
+
+    // logout
+    btnLogoutTop.addEventListener('click', ()=>{
+      localStorage.removeItem('tp_loggedIn');
+      localStorage.removeItem('tp_user');
+      updateAuthUI();
+      hideAllProtected();
+    });
+
+    // close modal when clicking backdrop
+    modal.addEventListener('click', (e)=>{
+      if(e.target === modal) modal.style.display = 'none';
+    });
+
+    // update header auth UI
+    function updateAuthUI(){
+      const loggedIn = localStorage.getItem('tp_loggedIn') === '1';
+      const user = localStorage.getItem('tp_user') || '';
+      if(loggedIn){
+        btnLoginTop.style.display = 'none';
+        btnLogoutTop.style.display = 'inline-block';
+        welcomeText.style.display = 'inline-block';
+        welcomeText.textContent = 'Halo, ' + user;
+      } else {
+        btnLoginTop.style.display = 'inline-block';
+        btnLogoutTop.style.display = 'none';
+        welcomeText.style.display = 'none';
+        welcomeText.textContent = '';
+      }
+    }
+
+    // Show protected block after checking login
+    function showProtected(btn, id){
+      const loggedIn = localStorage.getItem('tp_loggedIn') === '1';
+      const protectedEl = document.querySelector(`[data-protected-for="${id}"]`);
+      if(!protectedEl) return;
+      if(!loggedIn){
+        // open modal and mark this element so we can reveal after login
+        protectedEl.dataset.requestReveal = '1';
+        modal.style.display = 'flex';
+        document.getElementById('username').focus();
+      } else {
+        protectedEl.style.display = 'block';
+        // scroll into view smoothly
+        protectedEl.scrollIntoView({behavior:'smooth', block:'center'});
+      }
+    }
+
+    // Reveal all protected elements that were requested after successful login
+    function revealAllProtected(){
+      document.querySelectorAll('[data-protected-for]').forEach(el=>{
+        if(el.dataset.requestReveal === '1'){
+          el.style.display = 'block';
+          el.removeAttribute('data-request-reveal');
+        }
+      });
+    }
+
+    // Hide all protected details (on logout)
+    function hideAllProtected(){
+      document.querySelectorAll('[data-protected-for]').forEach(el=>{
+        el.style.display = 'none';
+      });
+    }
+
+    // On page load: set UI according to auth state
+    (function init(){
+      updateAuthUI();
+      // If already logged in, keep protected visible? We'll keep them hidden until user clicks Lihat Info Lengkap
+      // but you might prefer to auto-show all protected content for logged-in users:
+      // if(loggedIn) revealAllProtected();
+    })();
+  </script>
+
+</body>
+</html>
