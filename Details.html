@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Inovator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f8ff;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #1d4052;
+    }
+    .back {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #4f81ff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="nama"></h1>
+    <p id="deskripsi"></p>
+
+    <a class="back" href="index.html#inovator">&larr; Kembali ke Daftar Inovator</a>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    const inovatorData = {
+      inov1: {
+        nama: "Dr Ronny Lesmana, M.Kes., AIFO, Ph.D",
+        deskripsi: "Fokus pada riset kesehatan olahraga dan alat monitoring kesehatan berbasis IoT."
+      },
+      inov2: {
+        nama: "Dr. Eddy Renaldi, SP., ME.",
+        deskripsi: "Ahli pertanian berkelanjutan dan teknologi irigasi pintar untuk petani kecil."
+      },
+      inov3: {
+        nama: "Prof. Dr. apt. Sriwidodo, M.Si",
+        deskripsi: "Meneliti obat herbal dari tanaman asli Indonesia."
+      },
+      inov4: {
+        nama: "Prof. Dr. Ir. Betty Natalie Fitriatin A., MP",
+        deskripsi: "Fokus pada pupuk hayati pelarut fosfat untuk pertanian organik."
+      },
+      inov5: {
+        nama: "Asri Peni Wulandari, M.Sc., Ph.D.",
+        deskripsi: "Riset mikrobiologi lingkungan dan bio-remediasi limbah industri."
+      },
+      inov6: {
+        nama: "Dr. Efri Mardawati, S.T.P., M.T",
+        deskripsi: "Teknologi pengolahan hasil pertanian berbasis inovasi lokal."
+      }
+    };
+
+    if (inovatorData[id]) {
+      document.getElementById("nama").textContent = inovatorData[id].nama;
+      document.getElementById("deskripsi").textContent = inovatorData[id].deskripsi;
+    } else {
+      document.getElementById("nama").textContent = "Inovator tidak ditemukan.";
+      document.getElementById("deskripsi").textContent = "";
+    }
+  </script>
+</body>
+</html>
